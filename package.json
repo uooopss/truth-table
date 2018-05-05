@@ -1,7 +1,7 @@
 {
-  "name": "diplom",
+  "name": "truth-table",
   "version": "1.0.0",
-  "description": "My diplom",
+  "description": "truth-table",
   "main": "index.js",
   "scripts": {
     "start": "npm run build",
