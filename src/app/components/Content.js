@@ -10,7 +10,7 @@ export class Content extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            arrSelectGroups: [
+            arrSelectOperands: [
                 {
                     value: 2,
                     label: '2'
@@ -22,60 +22,108 @@ export class Content extends React.Component {
                 {
                     value: 4,
                     label: '4'
+                },
+                {
+                    value: 5,
+                    label: '5'
+                },
+                {
+                    value: 6,
+                    label: '6'
+                },
+                {
+                    value: 7,
+                    label: '7'
+                },
+                {
+                    value: 8,
+                    label: '8'
                 }
             ],
-            arrayGroups: [],
+            array: [],
             clearable: true,
-            selectGroup: '',
-            inputValue: ''
+            selectOperand: '',
+            selectBit: ''
         }
     }
 
-    handleSelectGroup = (selectGroup) => {
-        const arr = [];
-        if (selectGroup) {
-            for (var i = 0; i < selectGroup.value; i++) {
-                const obj = {
-                    index: i,
-                    groupLetter: String.fromCharCode(65 + i),
-                    groupMultiplier: ''
-                }
-                arr.push(obj);
-            }
+    handleSelectOperand = (e, name) => {
+        console.log("name", e, name)
+        // if (selectOperand) {
+        //     for (var i = 0; i < selectOperand.value; i++) {
+        //         const obj = {
+        //             index: i,
+        //             groupLetter: String.fromCharCode(65 + i),
+        //             groupMultiplier: ''
+        //         }
+        //         arr.push(obj);
+        //     }
+        // }
+        if (name === 'selOperand') {
+            this.setState({
+                selectOperand: e,
+            }, () => { console.log("selectOperand", this.state.selectOperand) })
+        } else {
+            this.setState({
+                selectBit: e,
+            }, () => { console.log("selectBit", this.state.selectBit) })
         }
-        this.setState({
-            selectGroup,
-            arrayGroups: arr
-        }, () => { console.log("selectGroup", this.state.selectGroup, this.state.arrayGroups) })
+       
     }
 
-    handleChange = (e, i) => {
-        console.log("input index", i);
-        this.setState({
-            arrayGroups: update(this.state.arrayGroups, {
-                [i]: { 'groupMultiplier': { $set: e.target.value } }
-            })
-        }, () => { console.log("update", this.state.arrayGroups) })
-    }
+    // handleChange = (e, i) => {
+    //     console.log("input index", i);
+    //     this.setState({
+    //         arrayGroups: update(this.state.arrayGroups, {
+    //             [i]: { 'groupMultiplier': { $set: e.target.value } }
+    //         })
+    //     }, () => { console.log("update", this.state.arrayGroups) })
+    // }
 
     build = () => {
-        // const row = [];
-        // for (var i = (Math.pow(2, 2) - 1) ; i >= 0 ; i--) {
-        //     for (var j = (2 - 1) ; j >= 0 ; j--) {
-        //       row[j] = (i & Math.pow(2,j)) ? 1 : 0
+        console.log("build");
+        // const arr = [];
+        // for (var i = 0; i < this.state.selectOperand.value; i++) {
+        //     const letter = String.fromCharCode(65 + i).toLowerCase();
+        //     for (var j = 0; j < this.state.selectBit.value; j++) {
+        //         const o = {
+        //             value: [],
+        //             label: letter + j
+        //         }
+        //         arr.push(o);
         //     }
-        //     console.log('row', row)
-        //   }
+        // }
+        // this.setState({
+        //     array: arr
+        // }, () => {console.log("array", this.state.array)})
+        const row = [];
+        for (var i = 0; i < Math.pow(2, 3); i++) {
+            for (var j = (3 - 1) ; j >= 0 ; j--) {
+                const a = (i / Math.pow(2,j)) % 2;
+                row[3-1 -j] = Math.floor(a);
+            }
+            console.log('row', row)
+          }
     }
 
     render() {
         const {
-            selectGroup,
+            selectOperand,
+            selectBit,
             clearable,
-            arrSelectGroups,
-            arrayGroups
+            arrSelectOperands,
+            arrayOperands,
+            array
         } = this.state;
-        const valueGroup = selectGroup && selectGroup.value;
+        const valueOperand = selectOperand && selectOperand.value;
+        const valueBit = selectBit && selectBit.value;
+        const validNumbers = selectOperand.value * selectBit.value;
+        const selectOper = "selOperand";
+
+        function TruthTable() {
+
+            return (<p></p>);
+        }
 
         return (
             <main className="content">
@@ -85,32 +133,31 @@ export class Content extends React.Component {
                             {/* <h1>menu selects</h1> */}
                             <div className="col-11 mt-4 mb-4 content-form">
                                 <form>
-                                    <div className={"form-group row d-flex align-items-center " + (this.state.selectGroup ? "form-group-num" : '')}>
+                                    <div className="form-group row d-flex align-items-center">
                                         <label className="col-6">Number of operands:</label>
                                         <div className="col-6">
                                             <Select
-                                                options={arrSelectGroups}
+                                                options={arrSelectOperands}
                                                 clearable={clearable}
-                                                name="selected-state-group"
-                                                value={valueGroup}
-                                                onChange={this.handleSelectGroup}
+                                                value={valueOperand}
+                                                onChange={(e) => this.handleSelectOperand(e, selectOper)}
                                             />
                                         </div>
                                     </div>
-                                    {arrayGroups && arrayGroups.map((o, i) => (
-                                        <div key={i} className="form-group row d-flex align-items-center">
-                                            <label className="col-6 ">Number of multipliers for {o.groupLetter} (1-6):</label>
-                                            <div className="col-6">
-                                                <input type="text" className="form-control" placeholder={"Enter for " + o.groupLetter}
-                                                    value={o.groupMultiplier} onChange={(event) => this.handleChange(event, o.index)}
-                                                />
-                                            </div>
+                                    <div className="form-group row d-flex align-items-center">
+                                        <label className="col-6">Number of bits:</label>
+                                        <div className="col-6">
+                                            <Select
+                                                options={arrSelectOperands}
+                                                clearable={clearable}
+                                                value={valueBit}
+                                                onChange={(e) => this.handleSelectOperand(e)}
+                                            />
                                         </div>
-                                    ))}
-                                    {selectGroup && (
+                                    </div>
+                                    {validNumbers <= 16 && (
                                         <div className="form-group row form-button">
                                             <div className="col-12 d-flex justify-content-center">
-                                                {/* <button type="button" className="btn btn-warning">MINIMIZATION</button> */}
                                                 <button type="button" className="btn btn-warning" onClick={this.build}>BUILD</button>
                                             </div>
                                         </div>
@@ -123,27 +170,18 @@ export class Content extends React.Component {
                                 <Table bordered>
                                     <thead>
                                     <tr>
-                                        {arrayGroups.map((o,i) => (<th key={i}>{o.groupLetter}</th>))}
+                                        {array.map((o,i) => (<th key={i}>{o.label}</th>))}
                                     </tr>
                                     </thead>
                                     <tbody>
+                                        {/* <TruthTable /> */}
                                     <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>@fat</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                        <td>@twitter</td>
+                                        <td>0</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>1</td>
+                                        <td>0</td>
                                     </tr>
                                     </tbody>
                                 </Table>
