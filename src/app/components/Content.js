@@ -40,7 +40,15 @@ export class Content extends React.Component {
                     label: '8'
                 }
             ],
-            array: [],
+            array: [
+                // {
+                //     A: []
+                // },
+                // {
+                //     R: []
+                // }
+            ],
+            array1: [],
             clearable: true,
             selectOperand: '',
             selectBit: ''
@@ -80,30 +88,35 @@ export class Content extends React.Component {
     //     }, () => { console.log("update", this.state.arrayGroups) })
     // }
 
-    build = () => {
+    build(num) {
         console.log("build");
-        // const arr = [];
-        // for (var i = 0; i < this.state.selectOperand.value; i++) {
-        //     const letter = String.fromCharCode(65 + i).toLowerCase();
-        //     for (var j = 0; j < this.state.selectBit.value; j++) {
-        //         const o = {
-        //             value: [],
-        //             label: letter + j
-        //         }
-        //         arr.push(o);
-        //     }
-        // }
-        // this.setState({
-        //     array: arr
-        // }, () => {console.log("array", this.state.array)})
-        const row = [];
-        for (var i = 0; i < Math.pow(2, 3); i++) {
-            for (var j = (3 - 1) ; j >= 0 ; j--) {
-                const a = (i / Math.pow(2,j)) % 2;
-                row[3-1 -j] = Math.floor(a);
+        const arr = [];
+        const arr1 = [];
+        for (var i = 0; i < this.state.selectOperand.value; i++) {
+            const letter = String.fromCharCode(65 + i).toLowerCase();
+            for (var j = 0; j < this.state.selectBit.value; j++) {
+                arr1.push(letter + j);
             }
-            console.log('row', row)
-          }
+        }
+        
+        for (var i = 0; i < Math.pow(2, num); i++) {
+            const row = [];
+            // 17
+            for (var j = (num - 1) ; j >= 0 ; j--) {
+                const a = (i / Math.pow(2,j)) % 2;
+                row[num-1 -j] = Math.floor(a);
+            }
+            const o = {
+                index: i,
+                value: row
+            }
+            arr.push(o);
+            
+        }
+        this.setState({
+            array: arr, 
+            array1: arr1
+        })
     }
 
     render() {
@@ -113,17 +126,13 @@ export class Content extends React.Component {
             clearable,
             arrSelectOperands,
             arrayOperands,
-            array
+            array,
+            array1
         } = this.state;
         const valueOperand = selectOperand && selectOperand.value;
         const valueBit = selectBit && selectBit.value;
         const validNumbers = selectOperand.value * selectBit.value;
         const selectOper = "selOperand";
-
-        function TruthTable() {
-
-            return (<p></p>);
-        }
 
         return (
             <main className="content">
@@ -158,7 +167,7 @@ export class Content extends React.Component {
                                     {validNumbers <= 16 && (
                                         <div className="form-group row form-button">
                                             <div className="col-12 d-flex justify-content-center">
-                                                <button type="button" className="btn btn-warning" onClick={this.build}>BUILD</button>
+                                                <button type="button" className="btn btn-warning" onClick={() => this.build(validNumbers)}>BUILD</button>
                                             </div>
                                         </div>
                                     )}
@@ -170,19 +179,26 @@ export class Content extends React.Component {
                                 <Table bordered>
                                     <thead>
                                     <tr>
-                                        {array.map((o,i) => (<th key={i}>{o.label}</th>))}
+                                        {array1.map((o,i) => (<th key={i}>{o}</th>))}
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        {/* <TruthTable /> */}
-                                    <tr>
-                                        <td>0</td>
-                                        <td>1</td>
-                                        <td>0</td>
-                                        <td>0</td>
-                                        <td>1</td>
-                                        <td>0</td>
-                                    </tr>
+                                        {array.map((o,i) => (
+                                            <tr key={i}>
+                                                {o.value.map((ob,ii) => (
+                                                    <td key={ii}>
+                                                        {ob}
+                                                    </td>))}
+                                            </tr>))}
+                                            {/* <tr>
+                                                {array.map((o,i) => (<td key={i}>{o.value}</td>))}
+                                                <td>0</td>
+                                                <td>1</td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td>1</td>
+                                                <td>0</td>
+                                            </tr> */}
                                     </tbody>
                                 </Table>
                             </div>
