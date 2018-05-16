@@ -40,15 +40,13 @@ export class Content extends React.Component {
                     label: '8'
                 }
             ],
-            array: [
-                // {
-                //     A: []
-                // },
-                // {
-                //     R: []
-                // }
+            array: [],
+            array1: [
+                {
+                    A: [],
+                    R: []
+                }
             ],
-            array1: [],
             clearable: true,
             selectOperand: '',
             selectBit: ''
@@ -88,14 +86,19 @@ export class Content extends React.Component {
     //     }, () => { console.log("update", this.state.arrayGroups) })
     // }
 
+
+
     build(num) {
         console.log("build");
         const arr = [];
         const arr1 = [];
+        const arr2 = [];
+        const letterR = String.fromCharCode(65 + 17).toLowerCase();
+
         for (var i = 0; i < this.state.selectOperand.value; i++) {
-            const letter = String.fromCharCode(65 + i).toLowerCase();
+            const letterA = String.fromCharCode(65 + i).toLowerCase();
             for (var j = 0; j < this.state.selectBit.value; j++) {
-                arr1.push(letter + j);
+                arr1.push(letterA + j);
             }
         }
         
@@ -105,6 +108,9 @@ export class Content extends React.Component {
             for (var j = (num - 1) ; j >= 0 ; j--) {
                 const a = (i / Math.pow(2,j)) % 2;
                 row[num-1 -j] = Math.floor(a);
+                if (i === num - 1) {
+                    arr2.push(letterR + (num -1 -j));
+                }
             }
             const o = {
                 index: i,
@@ -115,8 +121,13 @@ export class Content extends React.Component {
         }
         this.setState({
             array: arr, 
-            array1: arr1
-        })
+            array1: update(this.state.array1, {
+                [0]: {
+                    'A': { $set: arr1 },
+                    'R': {$set: arr2}
+                }
+            })
+        }, () => {console.log("arr2", this.state.array1)})
     }
 
     render() {
@@ -178,9 +189,10 @@ export class Content extends React.Component {
                             <div className="col-6">
                                 <Table bordered>
                                     <thead>
-                                    <tr>
-                                        {array1.map((o,i) => (<th key={i}>{o}</th>))}
-                                    </tr>
+                                        <tr>
+                                            {array1[0].A.map((o,i) => (<th key={i}>{o}</th>))}
+                                            {array1[0].R.map((o,i) => (<th key={i}>{o}</th>))}
+                                        </tr>
                                     </thead>
                                     <tbody>
                                         {array.map((o,i) => (
@@ -190,15 +202,6 @@ export class Content extends React.Component {
                                                         {ob}
                                                     </td>))}
                                             </tr>))}
-                                            {/* <tr>
-                                                {array.map((o,i) => (<td key={i}>{o.value}</td>))}
-                                                <td>0</td>
-                                                <td>1</td>
-                                                <td>0</td>
-                                                <td>0</td>
-                                                <td>1</td>
-                                                <td>0</td>
-                                            </tr> */}
                                     </tbody>
                                 </Table>
                             </div>
