@@ -3,6 +3,8 @@ import Select from "react-select";
 import update from "react-addons-update";
 import { Table } from 'reactstrap';
 
+import data from "../../../output.json"
+
 import "./Content.scss"
 import 'react-select/dist/react-select.css';
 
@@ -40,17 +42,24 @@ export class Content extends React.Component {
                     label: '8'
                 }
             ],
-            array: [],
+            array: [
+                {
+                    A: [],
+                    R: []
+                }
+            ],
             array1: [
                 {
                     A: [],
                     R: []
                 }
             ],
+            arrayDNF: [],
             clearable: true,
             selectOperand: '',
             selectBit: ''
-        }
+        };
+        this.convert = this.convert.bind(this);
     }
 
     handleSelectOperand = (e, name) => {
@@ -86,10 +95,25 @@ export class Content extends React.Component {
     //     }, () => { console.log("update", this.state.arrayGroups) })
     // }
 
-
+    convert(row, num) {
+        const arr = [...row];
+        var n = 1;
+        for (var i = 0; i < this.state.selectOperand.value; i++) {
+            var s = '';
+            for (var j = 0; j < this.state.selectBit.value; j++) {
+                s = s + arr[j];
+            }
+            n = n * parseInt(s, 2);
+            arr.splice(0, this.state.selectBit.value);
+        }
+        const number = String((n >>> 0).toString(2)).split("");
+        while(number.length !== num) {
+            number.unshift('0');
+        }
+        return number;
+    }
 
     build(num) {
-        console.log("build");
         const arr = [];
         const arr1 = [];
         const arr2 = [];
@@ -104,6 +128,7 @@ export class Content extends React.Component {
         
         for (var i = 0; i < Math.pow(2, num); i++) {
             const row = [];
+            var str = '';
             // 17
             for (var j = (num - 1) ; j >= 0 ; j--) {
                 const a = (i / Math.pow(2,j)) % 2;
@@ -111,23 +136,57 @@ export class Content extends React.Component {
                 if (i === num - 1) {
                     arr2.push(letterR + (num -1 -j));
                 }
+                
+                str += Math.floor(a);
             }
             const o = {
                 index: i,
-                value: row
+                value: {
+                    a: row,
+                    r: this.convert(row, num)
+                }
             }
             arr.push(o);
             
         }
         this.setState({
-            array: arr, 
+            array: update(this.state.array, {
+                [0]: {
+                    'A': { $set: arr }
+                }
+            }), 
             array1: update(this.state.array1, {
                 [0]: {
                     'A': { $set: arr1 },
                     'R': {$set: arr2}
                 }
             })
-        }, () => {console.log("arr2", this.state.array1)})
+        }, () => {console.log("arr2", this.state.array)})
+    }
+
+    output() {
+        console.log("output", data);
+        console.log("shift", data.output.shift())
+        var arrDNF = [];
+            data.output.map((obj) => {
+                const ar = Array.from(obj.R);
+                ar.forEach((n, i) => {
+                    const idx = arrDNF.map(ii => ii.index).indexOf(i);
+                    if(+n === 1 && (arrDNF.length === 0 || idx === -1)) {
+                        const p = {
+                            index: i,
+                            name: [obj.A]
+                        }
+                        arrDNF.push(p);
+                    } 
+                    else if (+n === 1 && idx !== -1) {
+                        arrDNF[idx].name.push(obj.A)
+                    }
+                })
+            })
+            this.setState({
+                arrayDNF: arrDNF
+            }, () => {console.log("arrayDNF", this.state.arrayDNF)})
     }
 
     render() {
@@ -142,8 +201,15 @@ export class Content extends React.Component {
         } = this.state;
         const valueOperand = selectOperand && selectOperand.value;
         const valueBit = selectBit && selectBit.value;
-        const validNumbers = selectOperand.value * selectBit.value;
+        const validNumbers = ((selectOperand !== null && selectBit !== null) && selectOperand.value * selectBit.value);
         const selectOper = "selOperand";
+
+        function Verilog() {
+
+            return (<div>
+                
+            </div>)
+        }
 
         return (
             <main className="content">
@@ -184,6 +250,7 @@ export class Content extends React.Component {
                                     )}
                                 </form>
                             </div>
+                            <button type="button" className="btn btn-warning" onClick={() => this.output()}>OUTPUT</button>
                         </div>
                         <div className="col-8 content-main d-flex justify-content-center align-items-center">
                             <div className="col-6">
@@ -195,19 +262,31 @@ export class Content extends React.Component {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {array.map((o,i) => (
+                                        {array[0].A.map((o,i) => (
                                             <tr key={i}>
-                                                {o.value.map((ob,ii) => (
+                                                {o.value.a.map((ob,ii) => (
                                                     <td key={ii}>
                                                         {ob}
                                                     </td>))}
+                                                {o.value.r.map((ob,ii) => (
+                                                <td key={ii}>
+                                                    {ob}
+                                                </td>))}
                                             </tr>))}
+                                        {/* {array[0].R.map((o,i) => (
+                                        <tr key={i}>
+                                            {o.value.map((ob,ii) => (
+                                                <td key={ii}>
+                                                    {+ob}
+                                                </td>))}
+                                        </tr>))} */}
                                     </tbody>
                                 </Table>
                             </div>
                             <div className="col-6">
                                 <h1> main content</h1>
                             </div>
+
                         </div>
                     </div>
                 </div>
