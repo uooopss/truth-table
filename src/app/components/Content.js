@@ -302,7 +302,7 @@ export class Content extends React.Component {
                                         <tr key={i}>
                                             {o.value.map((ob,ii) => (
                                                 <td key={ii}>
-                                                    {+ob}
+                                                    {+ob} 
                                                 </td>))}
                                         </tr>))} */}
                                     </tbody>
