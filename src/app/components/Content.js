@@ -207,7 +207,30 @@ export class Content extends React.Component {
         function Verilog() {
 
             return (<div>
-                
+                <textarea>
+                    module jdoodle;
+                        reg[10*10:0] string;
+                        reg[3:0] mem;
+                        initial begin
+                             string = "D:\espresso\output.txt";
+                             i = 0;
+                             repeat (16) begin
+                                 $display ("Current value of i is %d", i);
+                                 i = i + 1;
+                             end
+                             data_file = $fopen("D:\\espresso\\ver.txt");
+                               if (data_file == 0) begin
+                               end
+                        end
+                         always @(*) begin
+                           scan_file = $fscanf(data_file, "%d", captured_data); 
+                           if (!$feof(data_file)) begin
+                             //use captured_data as you would any other wire or reg value;
+                             $display ("Welcome to JDoodle!!! %s");
+                           end
+                         end
+                    endmodule
+                </textarea>
             </div>)
         }
 
@@ -250,10 +273,12 @@ export class Content extends React.Component {
                                     )}
                                 </form>
                             </div>
-                            <button type="button" className="btn btn-warning" onClick={() => this.output()}>OUTPUT</button>
+                            {/* <div>
+                                <button type="button" className="btn btn-warning" onClick={() => this.output()}>OUTPUT</button>
+                            </div> */}
                         </div>
                         <div className="col-8 content-main d-flex justify-content-center align-items-center">
-                            <div className="col-6">
+                            <div className="col-9">
                                 <Table bordered>
                                     <thead>
                                         <tr>
@@ -283,8 +308,8 @@ export class Content extends React.Component {
                                     </tbody>
                                 </Table>
                             </div>
-                            <div className="col-6">
-                                <h1> main content</h1>
+                            <div className="col-3">
+                                <button type="button" className="btn btn-warning" onClick={() => this.output()}>OUTPUT</button>
                             </div>
 
                         </div>
