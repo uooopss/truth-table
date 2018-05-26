@@ -1,0 +1,30 @@
+.content {
+    .content-menu {
+        border: 3px solid  yellow;
+        .content-form {
+            padding:0;
+            border: 3px solid rgba(255, 0, 0, 0.61);
+            border-radius: 7px;
+            .form-group {
+                margin-left: 0;
+                margin-right: 0;
+                margin-top: 1rem;
+            }
+            .form-group-num {
+                border-bottom: 1px solid red;
+                margin-bottom: 0;
+                padding-bottom: 1rem;
+            }
+            .form-button {
+                padding-top: 1rem;
+                border-top: 1px solid red;
+            }
+        }
+    }
+    .content-main {
+        border: 3px solid rgb(0, 128, 0);
+        .table {
+            margin-top: 1rem;
+        }
+    }
+}
