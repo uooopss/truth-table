@@ -202,7 +202,7 @@ export class Content extends React.Component {
                                 <Alert bsStyle="danger" className="d-flex justify-content-center">
                                     <strong>Warning!</strong> 
                                     <p className="alert-p-mar">The sum of all bits must not exceed 16</p>
-                                </Alert>;
+                                </Alert>; 
                             </div>
                         </div>)
                     }
