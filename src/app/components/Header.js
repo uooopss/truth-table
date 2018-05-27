@@ -1,4 +1,5 @@
 import React from "react";
+import { Jumbotron, Container } from 'reactstrap';
 
 import "./Header.scss"
 
@@ -6,13 +7,12 @@ export class Header extends React.Component {
     render() {
         return (
                 <header className="header">
-                    <div className="container-fluid">
-                         <div className="row">
-                             <div className="col-12 d-flex justify-content-center align-items-center header-style">
-                                 <h1> header</h1>
-                             </div>
-                         </div>
-                    </div>
+                   <Jumbotron fluid>
+                        <Container fluid>
+                        <h1 className="display-3">Fluid jumbotron</h1>
+                        <p className="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
+                        </Container>
+                    </Jumbotron>
                 </header>
              
         );
