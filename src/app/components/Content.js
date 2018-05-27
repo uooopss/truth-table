@@ -59,7 +59,8 @@ export class Content extends React.Component {
             clearable: true,
             selectOperand: '',
             selectBit: '',
-            show: false
+            show: false,
+            showBuild: false
         };
         this.convert = this.convert.bind(this);
     }
@@ -144,7 +145,7 @@ export class Content extends React.Component {
                     'R': { $set: arr2 }
                 }
             }),
-            show: false
+            showBuild: true
         }, () => { console.log("arr2", this.state.array) })
     }
 
@@ -234,7 +235,7 @@ export class Content extends React.Component {
                                         <div className="form-group row form-button">
                                             <div className="col-12 d-flex justify-content-center">
                                                 <button type="button" className="btn btn-warning but" onClick={() => this.build(validNumbers)}>BUILD</button>
-                                                <button type="button" className="btn btn-warning but" disabled={show ? true : false} onClick={() => this.output()}>OUTPUT</button>
+                                                {this.state.showBuild && (<button type="button" className="btn btn-warning but" disabled={show ? true : false} onClick={() => this.output()}>OUTPUT</button>)}
                                             </div>
                                         </div>
                                     )}
