@@ -145,7 +145,8 @@ export class Content extends React.Component {
                     'R': { $set: arr2 }
                 }
             }),
-            showBuild: true
+            showBuild: true,
+            show: false
         }, () => { console.log("arr2", this.state.array) })
     }
 
