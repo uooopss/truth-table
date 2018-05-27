@@ -1,9 +1,14 @@
 .content {
+    .alert-pad {
+        padding: 0;
+        .alert-p-mar {
+            margin-left: 25px;
+        }
+    }
     .content-menu {
-        border: 3px solid  yellow;
         .content-form {
             padding:0;
-            border: 3px solid rgba(255, 0, 0, 0.61);
+            border: 2px solid rgb(150, 150, 150);
             border-radius: 7px;
             .form-group {
                 margin-left: 0;
@@ -11,20 +16,42 @@
                 margin-top: 1rem;
             }
             .form-group-num {
-                border-bottom: 1px solid red;
+                border-bottom: 1px solid rgba(255, 0, 0, 0.479);
                 margin-bottom: 0;
                 padding-bottom: 1rem;
             }
             .form-button {
                 padding-top: 1rem;
-                border-top: 1px solid red;
+                border-top: 2px solid rgb(150, 150, 150);
+                .but {
+                    width: 100px;
+                    margin-left: 5px;
+                    margin-right: 5px;
+                }
             }
         }
     }
     .content-main {
-        border: 3px solid rgb(0, 128, 0);
         .table {
-            margin-top: 1rem;
+            // width: 100%;
+            margin-top: 15px;
+            // tbody {
+            //     height:200px;
+            //     overflow-y:auto;
+            //     width: 100%;
+            // }
+
         }
+        .tabs-margin {
+            margin-top: 15px;
+            .borFiles {
+                border-left: 1px solid rgb(228, 225, 225);
+                padding-left: 7px;
+                border-right: 1px solid rgb(228, 225, 225);
+                border-bottom: 1px solid rgb(228, 225, 225);
+                margin-bottom: 10px;
+            }
+        }
+        
     }
 }
