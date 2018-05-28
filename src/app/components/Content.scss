@@ -8,8 +8,8 @@
     .content-menu {
         .content-form {
             padding:0;
-            border: 2px solid rgb(150, 150, 150);
-            border-radius: 7px;
+            border: 5px solid rgb(88, 233, 226);
+            background-color: white;
             .form-group {
                 margin-left: 0;
                 margin-right: 0;
@@ -22,24 +22,20 @@
             }
             .form-button {
                 padding-top: 1rem;
-                border-top: 2px solid rgb(150, 150, 150);
+                border-top: 5px solid rgb(88, 233, 226);
                 .but {
                     width: 100px;
                     margin-left: 5px;
                     margin-right: 5px;
+                    background-color: rgb(88, 233, 226);
                 }
             }
         }
     }
     .content-main {
         .table {
-            // width: 100%;
             margin-top: 15px;
-            // tbody {
-            //     height:200px;
-            //     overflow-y:auto;
-            //     width: 100%;
-            // }
+            background-color: white;
 
         }
         .tabs-margin {
@@ -50,6 +46,7 @@
                 border-right: 1px solid rgb(228, 225, 225);
                 border-bottom: 1px solid rgb(228, 225, 225);
                 margin-bottom: 10px;
+                background-color: white;
             }
         }
         

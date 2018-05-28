@@ -9,8 +9,8 @@ export class Header extends React.Component {
                 <header className="header">
                    <Jumbotron fluid>
                         <Container fluid>
-                            <h1 className="display-3">Multiplier VHDL code generator</h1>
-                            <p className="lead">This is a program generate JavaScript code to VHDL.</p>
+                            <h1 className="display-3">Генератор VHDL кода суматора</h1>
+                            <p className="lead">Программа, генерирующая JavaScript код в VHDL</p>
                         </Container>
                     </Jumbotron>
                 </header>

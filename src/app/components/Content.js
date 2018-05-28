@@ -81,13 +81,13 @@ export class Content extends React.Component {
 
     convert(row, num) {
         const arr = [...row];
-        var n = 1;
+        var n = 0;
         for (var i = 0; i < this.state.selectOperand.value; i++) {
             var s = '';
             for (var j = 0; j < this.state.selectBit.value; j++) {
                 s = s + arr[j];
             }
-            n = n * parseInt(s, 2);
+            n = n + parseInt(s, 2);
             arr.splice(0, this.state.selectBit.value);
         }
         const number = String((n >>> 0).toString(2)).split("");
@@ -199,9 +199,9 @@ export class Content extends React.Component {
                     {validNumbers > 16 &&
                         (<div className="row">
                             <div className="col-12 alert-pad">
-                                <Alert bsStyle="danger" className="d-flex justify-content-center">
-                                    <strong>Warning!</strong> 
-                                    <p className="alert-p-mar">The sum of all bits must not exceed 16</p>
+                                <Alert bsStyle="warning" className="d-flex justify-content-center">
+                                    <strong>Ошибка!</strong> 
+                                    <p className="alert-p-mar">Сумма всех битов не должна превышать 16</p>
                                 </Alert>; 
                             </div>
                         </div>)
@@ -211,7 +211,7 @@ export class Content extends React.Component {
                             <div className="col-11 mt-4 mb-4 content-form">
                                 <form>
                                     <div className="form-group row d-flex align-items-center">
-                                        <label className="col-6">Number of operands:</label>
+                                        <label className="col-6">Число операндов:</label>
                                         <div className="col-6">
                                             <Select
                                                 options={arrSelectOperands}
@@ -222,7 +222,7 @@ export class Content extends React.Component {
                                         </div>
                                     </div>
                                     <div className="form-group row d-flex align-items-center">
-                                        <label className="col-6">Number of bits:</label>
+                                        <label className="col-6">Число бит:</label>
                                         <div className="col-6">
                                             <Select
                                                 options={arrSelectOperands}
@@ -235,8 +235,8 @@ export class Content extends React.Component {
                                     {validNumbers <= 16 && (
                                         <div className="form-group row form-button">
                                             <div className="col-12 d-flex justify-content-center">
-                                                <button type="button" className="btn btn-warning but" onClick={() => this.build(validNumbers)}>BUILD</button>
-                                                {this.state.showBuild && (<button type="button" className="btn btn-warning but" disabled={show ? true : false} onClick={() => this.output()}>OUTPUT</button>)}
+                                                <button type="button" className="btn but" onClick={() => this.build(validNumbers)}>BUILD</button>
+                                                {this.state.showBuild && (<button type="button" className="btn but" disabled={show ? true : false} onClick={() => this.output()}>OUTPUT</button>)}
                                             </div>
                                         </div>
                                     )}

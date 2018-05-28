@@ -3,6 +3,7 @@ body {
     font-size: 15px;
     font-weight: 300;
     color: #616161;
+    background-color: #e2cd86
 }
 input.form-control::-webkit-input-placeholder {color: #6161617e;}
 /* input.control::-moz-placeholder {color: #d3d3d3;}
