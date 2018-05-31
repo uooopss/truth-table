@@ -151,10 +151,10 @@ export class Content extends React.Component {
     }
 
     output() {
-        console.log("output", data);
-        console.log("shift", data.output.shift())
+        const a = (this.state.selectOperand.value + this.state.selectBit.value) * this.state.selectBit.value;
+        const idx = data.output.map(i => i.index).indexOf(a);
         var arrDNF = [];
-        data.output.map((obj) => {
+        data.output[idx].name.map((obj) => {
             const ar = Array.from(obj.R);
             ar.forEach((n, i) => {
                 const idx = arrDNF.map(ii => ii.index).indexOf(i);
@@ -175,6 +175,18 @@ export class Content extends React.Component {
             show: true
         })
     }
+
+    // space (num) {
+    //     var str = "";
+    //     console.log("shift", data_ex.output_ex.shift());
+    //   var qq =  data_ex.output_ex.map((obj, i) => {
+    //       const w = obj.A.slice(0, 12) + " " + obj.A.slice(12);
+    //       str = str + "\n" + w;
+    //         return w;
+    //     })
+    //     console.log("space", qq)
+    //     console.log("strrr", str);
+    // }
 
     render() {
         const {
@@ -236,6 +248,7 @@ export class Content extends React.Component {
                                         <div className="form-group row form-button">
                                             <div className="col-12 d-flex justify-content-center">
                                                 <button type="button" className="btn btn-warning but" onClick={() => this.build(validNumbers)}>BUILD</button>
+                                                {/* <button type="button" className="btn btn-warning but" onClick={() => this.space(validNumbers)}>SPACE</button> */}
                                                 {this.state.showBuild && (<button type="button" className="btn btn-warning but" disabled={show ? true : false} onClick={() => this.output()}>OUTPUT</button>)}
                                             </div>
                                         </div>
