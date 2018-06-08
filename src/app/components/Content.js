@@ -45,8 +45,7 @@ export class Content extends React.Component {
             ],
             array: [
                 {
-                    A: [],
-                    R: []
+                    A: []
                 }
             ],
             array1: [
@@ -63,6 +62,8 @@ export class Content extends React.Component {
             showBuild: false
         };
         this.convert = this.convert.bind(this);
+        this.monoton = this.monoton.bind(this);
+        this.compare = this.compare.bind(this);
     }
 
     handleSelectOperand = (e, name) => {
@@ -113,7 +114,6 @@ export class Content extends React.Component {
         for (var i = 0; i < Math.pow(2, num); i++) {
             const row = [];
             var str = '';
-            // 17
             for (var j = (num - 1); j >= 0; j--) {
                 const a = (i / Math.pow(2, j)) % 2;
                 row[num - 1 - j] = Math.floor(a);
@@ -133,6 +133,9 @@ export class Content extends React.Component {
             arr.push(o);
 
         }
+        
+        this.monoton(arr, arr2);
+
         this.setState({
             array: update(this.state.array, {
                 [0]: {
@@ -147,7 +150,53 @@ export class Content extends React.Component {
             }),
             showBuild: true,
             show: false
-        }, () => { console.log("arr2", this.state.array) })
+        })
+    }
+
+    monoton(arr, arr2) {
+        const num = [];
+        const a = this.state.selectOperand.value * this.state.selectBit.value;
+        console.log("arr", arr)
+        for (var w = 0; w < a; w++) {
+            var stroka = "";
+                arr.map((obj) => {
+                    stroka = stroka + obj.value.r[w];
+                })
+            for (var i = Math.pow(2, a) / 2; i >= 1; i = i / 2) {
+                var s = '';
+                var result = false;
+                var con = "";
+                    const re = new RegExp(".{1,"+i+"}", "g");
+                    s = stroka.match(re);
+                    console.log("ssss", s);
+                    if (this.compare(s)) {
+                        num.push(w);
+                        result = true;
+                        con = i;
+                        break;
+                    }
+            }
+            console.log("result", result, con);
+        }
+
+        num.reverse().map(n => {arr.map(obj => (
+            obj.value.r.splice(n, 1)
+        ));
+            arr2.splice(n, 1);
+        })
+
+        console.log("arrayMonoton", arr)
+        
+    }
+
+    compare(str) {
+        var count = 0;
+        for (var q = 0; q < str.length; q = q+2) {
+            if (parseInt(str[q], 2) > parseInt(str[q+1], 2)) {
+                count++;
+            }
+        }
+        return (count === 0 ? false : true)
     }
 
     output() {
@@ -208,12 +257,12 @@ export class Content extends React.Component {
         return (
             <main className="content">
                 <div className="container-fluid">
-                    {validNumbers > 16 &&
+                    {validNumbers > 12 &&
                         (<div className="row">
                             <div className="col-12 alert-pad">
                                 <Alert bsStyle="danger" className="d-flex justify-content-center">
                                     <strong>Warning!</strong> 
-                                    <p className="alert-p-mar">The sum of all bits must not exceed 16</p>
+                                    <p className="alert-p-mar">The sum of all bits must not exceed 12</p>
                                 </Alert>; 
                             </div>
                         </div>)
@@ -244,7 +293,7 @@ export class Content extends React.Component {
                                             />
                                         </div>
                                     </div>
-                                    {validNumbers <= 16 && (
+                                    {validNumbers <= 12 && (
                                         <div className="form-group row form-button">
                                             <div className="col-12 d-flex justify-content-center">
                                                 <button type="button" className="btn btn-warning but" onClick={() => this.build(validNumbers)}>BUILD</button>
@@ -323,9 +372,9 @@ export class Content extends React.Component {
                                                         <p>);</p>
                                                         <p>end entity;</p>
                                                         <p>architecture arch of f{i} is</p>
-                                                        <p>signal con : std_logic_vector([{arrayDNF.length}-1] downto 0):= (others => '0');</p>
+                                                        <p>signal con : std_logic_vector([{o.name.length}-1] downto 0):= (others => '0');</p>
                                                         <p>signal result: std_logic := '0';</p>
-                                                        <p>type in_data is array(0 to [{arrayDNF.length}-1]) of std_logic_vector([{validNumbers}-1] downto 0);</p>
+                                                        <p>type in_data is array(0 to [{o.name.length}-1]) of std_logic_vector([{validNumbers}-1] downto 0);</p>
                                                         <p>signal table: in_data :=(</p>
                                                         {o.name.map((obj, ii) => (
                                                             <p key={ii}>"{obj}"</p>
@@ -336,7 +385,7 @@ export class Content extends React.Component {
                                                         <p>variable word: std_logic_vector([{validNumbers}-1] downto 0);</p>
                                                         <p>variable i, j, k: integer := 0;</p>
                                                         <p>begin</p>
-                                                        <p>for i in 0 to [{arrayDNF.length}-1] loop</p>
+                                                        <p>for i in 0 to [{o.name.length}-1] loop</p>
                                                         <p>word := table(i);</p>
                                                         <p>for j in 0 to [{validNumbers}-1] loop</p>
                                                         <p>if word(j) = '1' then</p>
@@ -345,7 +394,7 @@ export class Content extends React.Component {
                                                         <p>end loop;</p>
                                                         <p>end loop;</p>
 
-                                                        <p>for k in 0 to [{arrayDNF.length}-1] loop</p>
+                                                        <p>for k in 0 to [{o.name.length}-1] loop</p>
                                                         <p>{"result <= result or con(k);"}</p>
                                                         <p>end loop;</p>
                                                         <p>end process;</p>
