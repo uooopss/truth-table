@@ -3,6 +3,7 @@ import Select from "react-select";
 import { Tabs, Tab, Alert } from "react-bootstrap";
 import update from "react-addons-update";
 import { Table } from 'reactstrap';
+import { Jumbotron, Container } from 'reactstrap';
 
 import data from "../../../output.json"
 
@@ -133,7 +134,7 @@ export class Content extends React.Component {
             arr.push(o);
 
         }
-        
+
         this.monoton(arr, arr2);
 
         this.setState({
@@ -262,7 +263,7 @@ export class Content extends React.Component {
                             <div className="col-12 alert-pad">
                                 <Alert bsStyle="danger" className="d-flex justify-content-center">
                                     <strong>Warning!</strong> 
-                                    <p className="alert-p-mar">The sum of all bits must not exceed 12</p>
+                                    <p className="alert-p-mar">The sum of all bits is greater than 12</p>
                                 </Alert>; 
                             </div>
                         </div>)
@@ -271,6 +272,24 @@ export class Content extends React.Component {
                         <div className="col-4 content-menu ">
                             <div className="col-11 mt-4 mb-4 content-form">
                                 <form>
+                                    <div className="row form-header">
+                                        <div className="col-12">
+                                            <div className="row">
+                                                <div className="col-12">
+                                                    <div className="d-flex justify-content-center">
+                                                        <h3 className="form-header-h3">SPECIFY VALUES</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="row">
+                                                <div className="col-12 ">
+                                                    <div className="d-flex justify-content-center">
+                                                        <h4 className="form-header-h4">The sum of all bits must not exceed 12</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div className="form-group row d-flex align-items-center">
                                         <label className="col-6">Number of operands:</label>
                                         <div className="col-6">
@@ -282,7 +301,7 @@ export class Content extends React.Component {
                                             />
                                         </div>
                                     </div>
-                                    <div className="form-group row d-flex align-items-center">
+                                    <div className="form-group row d-flex align-items-center form-select-margin">
                                         <label className="col-6">Number of bits:</label>
                                         <div className="col-6">
                                             <Select
@@ -294,7 +313,7 @@ export class Content extends React.Component {
                                         </div>
                                     </div>
                                     {validNumbers <= 12 && (
-                                        <div className="form-group row form-button">
+                                        <div className="form-group row form-button form-select-margin">
                                             <div className="col-12 d-flex justify-content-center">
                                                 <button type="button" className="btn btn-warning but" onClick={() => this.build(validNumbers)}>BUILD</button>
                                                 {/* <button type="button" className="btn btn-warning but" onClick={() => this.space(validNumbers)}>SPACE</button> */}
