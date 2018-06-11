@@ -357,13 +357,13 @@ export class Content extends React.Component {
                                                     <p>entity tb is</p>
                                                     <p>end entity tb;</p>
                                                     <p>architecture TEST of tb is</p>
-                                                    <p>signal x: std_logic_vector([{validNumbers} -1] downto 0);</p>
-                                                    <p>signal output: std_logic_vector (0 to [{validNumbers}-1]);</p>
+                                                    <p>signal x: std_logic_vector({validNumbers - 1} downto 0);</p>
+                                                    <p>signal output: std_logic_vector (0 to {validNumbers - 1});</p>
                                                     {arrayDNF.map((o, i) => (
                                                         <div key={i}>
                                                             <p>component f{i}</p>
                                                             <p>port (</p>
-                                                            <p>x : in std_logic_vector([{validNumbers}-1] downto 0);</p>
+                                                            <p>x : in std_logic_vector({validNumbers - 1} downto 0);</p>
                                                             <p>f:out std_logic</p>
                                                             <p>);</p>
                                                             <p>end component;</p>
@@ -386,34 +386,34 @@ export class Content extends React.Component {
                                                     <div className="borFiles">
                                                         <p>entity f{i} is</p>
                                                         <p>port(</p>
-                                                        <p>x : in std_logic_vector([{validNumbers}-1] downto 0);</p>
+                                                        <p>x : in std_logic_vector({validNumbers - 1} downto 0);</p>
                                                         <p>f:out std_logic</p>
                                                         <p>);</p>
                                                         <p>end entity;</p>
                                                         <p>architecture arch of f{i} is</p>
-                                                        <p>signal con : std_logic_vector([{o.name.length}-1] downto 0):= (others => '0');</p>
+                                                        <p>signal con : std_logic_vector({o.name.length - 1} downto 0):= (others => '0');</p>
                                                         <p>signal result: std_logic := '0';</p>
-                                                        <p>type in_data is array(0 to [{o.name.length}-1]) of std_logic_vector([{validNumbers}-1] downto 0);</p>
+                                                        <p>type in_data is array(0 to {o.name.length - 1}) of std_logic_vector({validNumbers - 1} downto 0);</p>
                                                         <p>signal table: in_data :=(</p>
                                                         {o.name.map((obj, ii) => (
-                                                            <p key={ii}>"{obj}"</p>
+                                                            (o.name.length !== ii+1 ? (<p key={ii}>"{obj}",</p>) : (<p key={ii}>"{obj}"</p>))
                                                         ))}
                                                         <p>);</p>
                                                         <p>begin</p>
                                                         <p>process(x)</p>
-                                                        <p>variable word: std_logic_vector([{validNumbers}-1] downto 0);</p>
+                                                        <p>variable word: std_logic_vector({validNumbers - 1} downto 0);</p>
                                                         <p>variable i, j, k: integer := 0;</p>
                                                         <p>begin</p>
-                                                        <p>for i in 0 to [{o.name.length}-1] loop</p>
+                                                        <p>for i in 0 to {o.name.length - 1} loop</p>
                                                         <p>word := table(i);</p>
-                                                        <p>for j in 0 to [{validNumbers}-1] loop</p>
+                                                        <p>for j in 0 to {validNumbers - 1} loop</p>
                                                         <p>if word(j) = '1' then</p>
                                                         <p>{"con(i) <= con(i) and x(j);"}</p>
                                                         <p>end if;</p>
                                                         <p>end loop;</p>
                                                         <p>end loop;</p>
 
-                                                        <p>for k in 0 to [{o.name.length}-1] loop</p>
+                                                        <p>for k in 0 to {o.name.length - 1} loop</p>
                                                         <p>{"result <= result or con(k);"}</p>
                                                         <p>end loop;</p>
                                                         <p>end process;</p>
