@@ -6,6 +6,8 @@ import { Table } from 'reactstrap';
 import { Jumbotron, Container } from 'reactstrap';
 
 import data from "../../../output.json"
+import data_mono from "../../../output_mono.json"
+// import data_ex from "../../../output_ex.json"
 
 import "./Content.scss"
 import 'react-select/dist/react-select.css';
@@ -200,11 +202,36 @@ export class Content extends React.Component {
         return (count === 0 ? false : true)
     }
 
+    // output() {
+    //     const a = (this.state.selectOperand.value + this.state.selectBit.value) * this.state.selectBit.value;
+    //     const idx = data.output.map(i => i.index).indexOf(a);
+    //     var arrDNF = [];
+    //     data.output[idx].name.map((obj) => {
+    //         const ar = Array.from(obj.R);
+    //         ar.forEach((n, i) => {
+    //             const idx = arrDNF.map(ii => ii.index).indexOf(i);
+    //             if (+n === 1 && (arrDNF.length === 0 || idx === -1)) {
+    //                 const p = {
+    //                     index: i,
+    //                     name: [obj.A]
+    //                 }
+    //                 arrDNF.push(p);
+    //             }
+    //             else if (+n === 1 && idx !== -1) {
+    //                 arrDNF[idx].name.push(obj.A)
+    //             }
+    //         })
+    //     })
+    //     this.setState({
+    //         arrayDNF: arrDNF,
+    //         show: true
+    //     })
+    // }
     output() {
         const a = (this.state.selectOperand.value + this.state.selectBit.value) * this.state.selectBit.value;
-        const idx = data.output.map(i => i.index).indexOf(a);
+        const idx = data_mono.output_mono.map(i => i.index).indexOf(a);
         var arrDNF = [];
-        data.output[idx].name.map((obj) => {
+        data_mono.output_mono[idx].name.map((obj) => {
             const ar = Array.from(obj.R);
             ar.forEach((n, i) => {
                 const idx = arrDNF.map(ii => ii.index).indexOf(i);
@@ -234,7 +261,7 @@ export class Content extends React.Component {
     //       str = str + "\n" + w;
     //         return w;
     //     })
-    //     console.log("space", qq)
+    //     // console.log("space", qq)
     //     console.log("strrr", str);
     // }
 
