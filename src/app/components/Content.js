@@ -36,14 +36,6 @@ export class Content extends React.Component {
                 {
                     value: 6,
                     label: '6'
-                },
-                {
-                    value: 7,
-                    label: '7'
-                },
-                {
-                    value: 8,
-                    label: '8'
                 }
             ],
             array: [
@@ -57,6 +49,8 @@ export class Content extends React.Component {
                     R: []
                 }
             ],
+            arrr: [],
+            arrr2: [],
             arrayDNF: [],
             clearable: true,
             selectOperand: '',
@@ -137,9 +131,11 @@ export class Content extends React.Component {
 
         }
 
-        this.monoton(arr, arr2);
+        // this.monoton(arr, arr2);
 
         this.setState({
+            arrr: arr,
+            arrr2: arr2,
             array: update(this.state.array, {
                 [0]: {
                     'A': { $set: arr }
@@ -151,9 +147,34 @@ export class Content extends React.Component {
                     'R': { $set: arr2 }
                 }
             }),
+            showBuild: false,
+            // showBuild: true,
+            show: false
+        })
+    }
+
+    mono() {
+
+        const arr = this.state.arrr;
+        const arr2 = this.state.arrr2;
+
+        this.monoton(arr, arr2);
+
+        this.setState({
+            array: update(this.state.array, {
+                [0]: {
+                    'A': { $set: arr }
+                }
+            }),
+            array1: update(this.state.array1, {
+                [0]: {
+                    'R': { $set: arr2 }
+                }
+            }),
             showBuild: true,
             show: false
         })
+
     }
 
     monoton(arr, arr2) {
@@ -344,6 +365,7 @@ export class Content extends React.Component {
                                             <div className="col-12 d-flex justify-content-center">
                                                 <button type="button" className="btn btn-warning but" onClick={() => this.build(validNumbers)}>BUILD</button>
                                                 {/* <button type="button" className="btn btn-warning but" onClick={() => this.space(validNumbers)}>SPACE</button> */}
+                                                <button type="button" className="btn btn-warning but" onClick={() => this.mono()}>MONO</button>
                                                 {this.state.showBuild && (<button type="button" className="btn btn-warning but" disabled={show ? true : false} onClick={() => this.output()}>OUTPUT</button>)}
                                             </div>
                                         </div>
